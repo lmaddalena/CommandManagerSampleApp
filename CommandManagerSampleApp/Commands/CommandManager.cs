@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,19 +8,28 @@ using System.Windows.Forms;
 
 namespace CommandManagerSampleApp.Commands
 {
-    internal class CommandManager
+    internal class CommandManager : ICommandManager
     {
 
-        public Dictionary<string, Command> Commands { get; set; }
+        protected Dictionary<string, Command> Commands { get; set; }
         
         public CommandManager()
         {
             Commands = new Dictionary<string, Command>();
         }
 
+        public Command CreateCommand(string commandName, CommandClickHandler handler)
+        {
+            Command cmd = new Command() { CommandName = commandName, UICommands = new List<Component>() };
+            cmd.CommandClick += handler;
+            Commands.Add(commandName, cmd);
+
+            return cmd;
+        }
+
         public Command CreateCommand(string commandName, IEnumerable<ToolStripItem> uiCommands, CommandClickHandler handler)
         {
-            Command cmd = new Command() { CommandName = commandName, UICommands = new List<ToolStripItem>() };
+            Command cmd = new Command() { CommandName = commandName, UICommands = new List<Component>() };
             cmd.CommandClick += handler;
             Commands.Add(commandName, cmd);
 
@@ -30,15 +40,21 @@ namespace CommandManagerSampleApp.Commands
             return cmd;
         }
 
-
-        public Command CreateCommand(string commandName, IEnumerable<ToolStripItem> uiCommands)
-        {
-            return CreateCommand(commandName, uiCommands, null);
-        }
-
         public Command CreateCommand(string commandName, ToolStripItem uiCommand, CommandClickHandler handler)
         {
-            Command cmd = new Command() { CommandName = commandName, UICommands = new List<ToolStripItem>() };
+            Command cmd = new Command() { CommandName = commandName, UICommands = new List<Component>() };
+            cmd.CommandClick += handler;
+            Commands.Add(commandName, cmd);
+
+            cmd.UICommands.Add(uiCommand);
+            uiCommand.Click += cmd.UICommandClick;
+
+            return cmd;
+        }
+
+        public Command CreateCommand(string commandName, Button uiCommand, CommandClickHandler handler)
+        {
+            Command cmd = new Command() { CommandName = commandName, UICommands = new List<Component>() };
             cmd.CommandClick += handler;
             Commands.Add(commandName, cmd);
 
@@ -58,6 +74,16 @@ namespace CommandManagerSampleApp.Commands
             
         }
 
+        public Command RegisterUICommand(string commandName, Button uiCommand)
+        {
+            Command cmd = Commands[commandName];
+            cmd.UICommands.Add(uiCommand);
+            uiCommand.Click += cmd.UICommandClick;
+
+            return cmd;
+
+        }
+
         public Command RegisterUICommand(string commandName, IEnumerable<ToolStripItem> uiCommands)
         {
             Command cmd = Commands[commandName];
@@ -67,11 +93,6 @@ namespace CommandManagerSampleApp.Commands
 
             return cmd;
 
-        }
-
-        public Command CreateCommand(string commandName, ToolStripItem uiCommand)
-        {
-            return CreateCommand(commandName, uiCommand, null);
         }
 
         public Command GetCommand(string commandName)

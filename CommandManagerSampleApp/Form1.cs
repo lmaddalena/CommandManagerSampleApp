@@ -12,7 +12,7 @@ namespace CommandManagerSampleApp
 {
     public partial class frmMain : Form
     {
-        Commands.CommandManager cmdManager = new Commands.CommandManager();
+        Commands.ICommandManager cmdManager = new Commands.CommandManager();
 
         public frmMain()
         {
@@ -28,16 +28,14 @@ namespace CommandManagerSampleApp
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            // method 1 to create the command
+            // create command
             cmdManager.CreateCommand("copy", new ToolStripItem[] { miCopy, tsbCopy }, cmdCopy_CommandClick);
             cmdManager.CreateCommand("bold", tsbBold, cmdBold_CommandClick);
-
-            // method 2 to create the command
-            Commands.Command cmdSave = cmdManager.CreateCommand("save", new ToolStripItem[] { miSave, tsbSave });
-            cmdSave.CommandClick += cmdSave_CommandClick;
+            cmdManager.CreateCommand("save", new ToolStripItem[] { miSave, tsbSave }, cmdSave_CommandClick);
 
             // register new UICommand on existing command
             cmdManager.RegisterUICommand("copy", ctxmiCopy);
+            cmdManager.RegisterUICommand("copy", btnCopy);
 
             // disable "copy" command 
             cmdManager.SetCommandEnable(false, "copy");
@@ -71,16 +69,16 @@ namespace CommandManagerSampleApp
 
         private void cmdCopy_CommandClick(object sender, EventArgs args)
         {
-            MessageBox.Show($"copy command clicked ({((ToolStripItem)sender).Name})");
+            MessageBox.Show($"copy command clicked ({sender.ToString()})");
         }
 
         private void cmdBold_CommandClick(object sender, EventArgs args)
         {
-            MessageBox.Show($"bold command clicked ({((ToolStripItem)sender).Name})");
+            MessageBox.Show($"bold command clicked ({sender.ToString()})");
         }
         private void cmdSave_CommandClick(object sender, EventArgs e)
         {
-            MessageBox.Show($"save command clicked ({((ToolStripItem)sender).Name})");
+            MessageBox.Show($"save command clicked ({sender.ToString()})");
         }
 
         private void rtbText_SelectionChanged(object sender, EventArgs e)

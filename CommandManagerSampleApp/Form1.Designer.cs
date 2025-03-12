@@ -50,6 +50,7 @@
             this.rtbText = new System.Windows.Forms.RichTextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctxmiCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -62,7 +63,7 @@
             this.miEdit});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(423, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(492, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -80,24 +81,24 @@
             // miOpen
             // 
             this.miOpen.Name = "miOpen";
-            this.miOpen.Size = new System.Drawing.Size(103, 22);
+            this.miOpen.Size = new System.Drawing.Size(180, 22);
             this.miOpen.Text = "Open";
             // 
             // miSave
             // 
             this.miSave.Name = "miSave";
-            this.miSave.Size = new System.Drawing.Size(103, 22);
+            this.miSave.Size = new System.Drawing.Size(180, 22);
             this.miSave.Text = "Save";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(100, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // miExit
             // 
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(103, 22);
+            this.miExit.Size = new System.Drawing.Size(180, 22);
             this.miExit.Text = "E&xit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 
@@ -118,9 +119,9 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 506);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(423, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(492, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -136,7 +137,7 @@
             this.tsbBold});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(423, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(492, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -199,11 +200,13 @@
             // 
             // rtbText
             // 
+            this.rtbText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbText.ContextMenuStrip = this.contextMenuStrip1;
-            this.rtbText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbText.Location = new System.Drawing.Point(0, 49);
             this.rtbText.Name = "rtbText";
-            this.rtbText.Size = new System.Drawing.Size(423, 379);
+            this.rtbText.Size = new System.Drawing.Size(492, 421);
             this.rtbText.TabIndex = 3;
             this.rtbText.Text = "";
             this.rtbText.SelectionChanged += new System.EventHandler(this.rtbText_SelectionChanged);
@@ -219,14 +222,25 @@
             // 
             this.ctxmiCopy.Enabled = false;
             this.ctxmiCopy.Name = "ctxmiCopy";
-            this.ctxmiCopy.Size = new System.Drawing.Size(180, 22);
+            this.ctxmiCopy.Size = new System.Drawing.Size(102, 22);
             this.ctxmiCopy.Text = "Copy";
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCopy.Location = new System.Drawing.Point(12, 476);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(75, 23);
+            this.btnCopy.TabIndex = 4;
+            this.btnCopy.Text = "Copy";
+            this.btnCopy.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(423, 450);
+            this.ClientSize = new System.Drawing.Size(492, 528);
+            this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.rtbText);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
@@ -267,6 +281,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem ctxmiCopy;
+        private System.Windows.Forms.Button btnCopy;
     }
 }
 
