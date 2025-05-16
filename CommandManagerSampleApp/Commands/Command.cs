@@ -14,7 +14,13 @@ namespace CommandManagerSampleApp.Commands
     {
         public event CommandClickHandler CommandClick;
         public string CommandName { get; set; }
-        public List<Component> UICommands { get; set; }
+        
+        private List<Component> _UICommands;
+
+        public Command()
+        {
+            _UICommands = new List<Component>();                
+        }
 
         protected void OnCommandClick(object sender, EventArgs args)
         {
@@ -26,10 +32,40 @@ namespace CommandManagerSampleApp.Commands
             OnCommandClick(sender, e);
         }
 
+        public void RegisterUICommand(ToolStripItem uiCommand)
+        {
+            this._UICommands.Add(uiCommand);
+            uiCommand.Click += this.UICommandClick;
+        }
+
+        public void RegisterUICommand(IEnumerable<ToolStripItem> uiCommands)
+        {
+            foreach (ToolStripItem uiCommand in uiCommands)
+            {
+                this._UICommands.Add(uiCommand);
+                uiCommand.Click += this.UICommandClick;
+            }
+        }
+
+        public void RegisterUICommand(Button uiCommand)
+        {
+            this._UICommands.Add(uiCommand);
+            uiCommand.Click += this.UICommandClick;
+        }
+
+        public void RegisterUICommand(IEnumerable<Button> uiCommands)
+        {
+            foreach (Button uiCommand in uiCommands)
+            {
+                this._UICommands.Add(uiCommand);
+                uiCommand.Click += this.UICommandClick;
+            }
+        }
+
         public void Enable()
-        { 
-            UICommands?.ForEach(x => {
-                
+        {
+            _UICommands?.ForEach(x => {
+
                 if (x is Button)
                     ((Button)x).Enabled = true;
                 else if (x is ToolStripItem)
@@ -37,9 +73,9 @@ namespace CommandManagerSampleApp.Commands
             });
         }
 
-        public void Disable() 
+        public void Disable()
         {
-            UICommands?.ForEach(x => {
+            _UICommands?.ForEach(x => {
                 if (x is Button)
                     ((Button)x).Enabled = false;
                 else if (x is ToolStripItem)

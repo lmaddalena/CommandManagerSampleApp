@@ -12,7 +12,7 @@ namespace CommandManagerSampleApp.Commands
     {
 
         protected Dictionary<string, Command> Commands { get; set; }
-        
+
         public CommandManager()
         {
             Commands = new Dictionary<string, Command>();
@@ -20,7 +20,7 @@ namespace CommandManagerSampleApp.Commands
 
         public Command CreateCommand(string commandName, CommandClickHandler handler)
         {
-            Command cmd = new Command() { CommandName = commandName, UICommands = new List<Component>() };
+            Command cmd = new Command() { CommandName = commandName };
             cmd.CommandClick += handler;
             Commands.Add(commandName, cmd);
 
@@ -29,37 +29,34 @@ namespace CommandManagerSampleApp.Commands
 
         public Command CreateCommand(string commandName, IEnumerable<ToolStripItem> uiCommands, CommandClickHandler handler)
         {
-            Command cmd = new Command() { CommandName = commandName, UICommands = new List<Component>() };
+            Command cmd = new Command() { CommandName = commandName };
             cmd.CommandClick += handler;
             Commands.Add(commandName, cmd);
 
-            cmd.UICommands.AddRange(uiCommands);
             foreach (var item in uiCommands)
-                item.Click += cmd.UICommandClick;
+                cmd.RegisterUICommand(item);
 
             return cmd;
         }
 
         public Command CreateCommand(string commandName, ToolStripItem uiCommand, CommandClickHandler handler)
         {
-            Command cmd = new Command() { CommandName = commandName, UICommands = new List<Component>() };
+            Command cmd = new Command() { CommandName = commandName };
             cmd.CommandClick += handler;
             Commands.Add(commandName, cmd);
 
-            cmd.UICommands.Add(uiCommand);
-            uiCommand.Click += cmd.UICommandClick;
+            cmd.RegisterUICommand(uiCommand);
 
             return cmd;
         }
 
         public Command CreateCommand(string commandName, Button uiCommand, CommandClickHandler handler)
         {
-            Command cmd = new Command() { CommandName = commandName, UICommands = new List<Component>() };
+            Command cmd = new Command() { CommandName = commandName };
             cmd.CommandClick += handler;
             Commands.Add(commandName, cmd);
 
-            cmd.UICommands.Add(uiCommand);
-            uiCommand.Click += cmd.UICommandClick;
+            cmd.RegisterUICommand(uiCommand);
 
             return cmd;
         }
@@ -67,36 +64,38 @@ namespace CommandManagerSampleApp.Commands
         public Command RegisterUICommand(string commandName, ToolStripItem uiCommand)
         {
             Command cmd = Commands[commandName];
-            cmd.UICommands.Add(uiCommand);
-            uiCommand.Click += cmd.UICommandClick;
+            cmd.RegisterUICommand(uiCommand);
 
             return cmd;
-            
+
         }
 
         public Command RegisterUICommand(string commandName, Button uiCommand)
         {
             Command cmd = Commands[commandName];
-            cmd.UICommands.Add(uiCommand);
-            uiCommand.Click += cmd.UICommandClick;
+            cmd.RegisterUICommand(uiCommand);
 
             return cmd;
 
         }
+
 
         public Command RegisterUICommand(string commandName, IEnumerable<ToolStripItem> uiCommands)
         {
             Command cmd = Commands[commandName];
-            cmd.UICommands.AddRange(uiCommands);
-            foreach (var item in uiCommands)
-                item.Click += cmd.UICommandClick;
-
+            cmd.RegisterUICommand(uiCommands);
             return cmd;
+        }
 
+        public Command RegisterUICommand(string commandName, IEnumerable<Button> uiCommands)
+        {
+            Command cmd = Commands[commandName];
+            cmd.RegisterUICommand(uiCommands);
+            return cmd;
         }
 
         public Command GetCommand(string commandName)
-        { 
+        {
             return Commands[commandName];
         }
 
@@ -123,5 +122,18 @@ namespace CommandManagerSampleApp.Commands
 
         }
 
+        public void SetCommandEnable(bool enabled, IEnumerable<Command> commands)
+        {
+            foreach (Command command in commands)
+            {
+                if (enabled)
+                    command.Enable();
+                else
+                    command.Disable();
+            }
+
+        }
+
     }
+
 }

@@ -16,8 +16,10 @@ namespace CommandManagerSampleApp.Commands
         Command RegisterUICommand(string commandName, Button uiCommand);
         Command RegisterUICommand(string commandName, ToolStripItem uiCommand);
         Command RegisterUICommand(string commandName, IEnumerable<ToolStripItem> uiCommands);
+        Command RegisterUICommand(string commandName, IEnumerable<Button> uiCommands);
         void SetCommandEnable(bool enabled, string commandName);
         void SetCommandEnable(bool enabled, IEnumerable<string> commandNames);
+        void SetCommandEnable(bool enabled, IEnumerable<Command> commands);
         Command GetCommand(string commandName);
     }
 }
